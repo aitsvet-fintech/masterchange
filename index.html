@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Masterchain Token</title>
+
+    <link rel="stylesheet" href="libs/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div id="wrapper">
+    </div>
+
+    <div id="tools">
+      <form id="node" action="#">
+        <label for="address">Web3 interface at</label>
+        <input name="url" type="text" value="http://localhost:8545" >
+        <a id="connect" class="waves-effect waves-light btn">
+          Connect <i class="material-icons right">power</i>
+        </a>
+      </form>
+      <form id="accounts" action="#">Available accounts:</form>
+      <div id="compiler">
+        <div id="message">Loading compiler...</div>
+        <a id="compile" class="waves-effect waves-light btn">
+          Compile <i class="material-icons right">playlist_add_checked</i>
+        </a>
+      </div>
+      <div id="bytecode">
+        <span class="name"></span> bytecode:
+        <div class="content"></div>
+        <a id="deploy" class="waves-effect waves-light btn">
+          Deploy <i class="material-icons right">publish</i>
+        </a>
+      </div>
+      <form id="contract" action="#">
+        <label for="address"><span class="name"></span> instance at</label>
+        <input name="address" type="text" >
+        <a id="open" class="waves-effect waves-light btn">
+          Open <i class="material-icons right">my_location</i>
+        </a>
+      </form>
+      <div id="interface"></div>
+    </div>
+
+    <script src="libs/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/materialize.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/mode-solidity.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/browser-solc.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/web3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="script.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
