@@ -8,7 +8,7 @@ contract Token {
     owner = msg.sender;
   }
 
-//} /*
+} /*
   mapping(address => uint) public balance;
 
   function produce(uint amount) public {
@@ -22,7 +22,7 @@ contract Token {
     balance[to] += amount;
   }
 
-//} /*
+} /*
   mapping(address => mapping(address => uint)) public proposed;
 
   function propose(uint amount, address to) public {
@@ -41,7 +41,7 @@ contract Token {
     proposed[from][msg.sender] = 0;
   }
 
-//} /*
+} /*
 }
 
 contract Exchange {
