@@ -3,30 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>Masterchain Token</title>
-
     <link rel="stylesheet" href="libs/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-
     <div id="wrapper">
     </div>
-
     <div id="tools">
       <form id="node" action="#">
-        <label for="address">Web3 interface at</label>
-        <input name="url" type="text" value="http://localhost:20000" >
+        <label>Web3 API at <input name="url" type="text"></label>
         <a id="connect" class="waves-effect waves-light btn">
           Connect <i class="material-icons right">power</i>
         </a>
       </form>
-      <form id="accounts" action="#">Available accounts:</form>
+      <form id="accounts" action="#">Available accounts:<br/></form>
       <div id="compiler">
-        <div id="message">Loading compiler...</div>
         <a id="compile" class="waves-effect waves-light btn">
           Compile <i class="material-icons right">playlist_add_checked</i>
         </a>
+        <div id="message">Loading compiler...</div>
       </div>
       <div id="bytecode">
         <span class="name"></span> bytecode:
@@ -36,22 +32,21 @@
         </a>
       </div>
       <form id="contract" action="#">
-        <label for="address"><span class="name"></span> instance at</label>
-        <input name="address" type="text" >
+        <label><span class="name"></span> instance at
+          <input name="address" type="text" class="addr"></label>
         <a id="open" class="waves-effect waves-light btn">
           Open <i class="material-icons right">my_location</i>
         </a>
       </form>
-      <div id="interface"></div>
+      <div id="panel"></div>
     </div>
-
     <script src="libs/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="libs/materialize.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="libs/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="libs/mode-solidity.js" type="text/javascript" charset="utf-8"></script>
     <script src="libs/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
-    <script src="libs/browser-solc.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="libs/web3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/cadesplugin_api.js" type="text/javascript" charset="utf-8"></script>
+    <script src="libs/ethers-5.0.umd.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="script.js" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>

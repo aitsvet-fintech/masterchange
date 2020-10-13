@@ -2,6 +2,11 @@ body {
   font-size: 0;
 }
 
+a {
+  color: #0D47A1;
+  text-decoration: underline;
+}
+
 #wrapper { 
   display: inline-block;
   height: 100vh;
@@ -48,6 +53,12 @@ form label {
   font-size: 14px;
 }
 
+#accounts div,
+#accounts pre {
+  display: inline-block;
+  margin: 0 0 0 1em;
+}
+
 #tools input[type=text] {
   color: black;
   font-family: monospace;
@@ -59,6 +70,11 @@ form label {
 
 #interface form.card-panel {
   padding: 1em;
+}
+
+form.card-panel span,
+#panel form.card-panel input {
+  margin: 0 0 0 1em;
 }
 
 #interface form label {

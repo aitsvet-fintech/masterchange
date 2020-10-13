@@ -1,10 +1,12 @@
-<div id="editor">pragma solidity ^0.4.21;
+//<div id="editor">// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.3;
 
 contract Token {
 
   address public owner;
 
-  function Token() public {
+  constructor() {
     owner = msg.sender;
   }
 
@@ -36,7 +38,7 @@ contract Token {
     proposed[msg.sender][to] = 0;
   }
 
-  function receive(address from) public {
+  function obtain(address from) public {
     balance[msg.sender] += proposed[from][msg.sender];
     proposed[from][msg.sender] = 0;
   }
@@ -46,33 +48,33 @@ contract Token {
 
 contract Exchange {
 
-  mapping(address =>     // from token
-    mapping(uint =>      // proposed amount
-      mapping(address => // to token
-        mapping(uint =>  // desired amount
+  mapping(Token =>      // from
+    mapping(uint =>     // proposed amount
+      mapping(Token =>  // to
+        mapping(uint => // desired amount
           address[])))) public bidders;
 
   function change(Token from, Token to, uint desired, bool canWait) public {
 
-    uint proposed = from.proposed(msg.sender, this);
+    uint proposed = from.proposed(msg.sender, address(this));
     require (proposed > 0);
 
     uint length = bidders[to][desired][from][proposed].length;
     if (length == 0) {
 
-        require (canWait);
-        from.receive(msg.sender);
+        require(canWait);
+        from.obtain(msg.sender);
         bidders[from][proposed][to][desired].push(msg.sender);
 
     } else {
 
-        from.receive(msg.sender);
+        from.obtain(msg.sender);
         address waiter = bidders[to][desired][from][proposed][0];
 
         if (length > 1)
             bidders[to][desired][from][proposed][0] =
                 bidders[to][desired][from][proposed][length - 1];
-        bidders[to][desired][from][proposed].length--;
+        bidders[to][desired][from][proposed].pop();
 
         from.transfer(proposed, waiter);
         to.transfer(desired, msg.sender);
@@ -88,9 +90,9 @@ contract Exchange {
     if (length > 1)
         bidders[from][proposed][to][desired][bidIndex] =
             bidders[from][proposed][to][desired][length - 1];
-    bidders[from][proposed][to][desired].length--;
+    bidders[from][proposed][to][desired].pop();
 
     from.transfer(proposed, msg.sender);
   }
 } /* */
-</div>
+//</div>
