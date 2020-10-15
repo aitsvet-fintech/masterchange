@@ -90,7 +90,7 @@ function help() {
         '<li><a href="https://www.cryptopro.ru/products/csp/downloads">CryptoPro CSP</a></li>' +
         '<li><a href="https://www.cryptopro.ru/products/cades/plugin/get_2_0">Browser plugin</a></li>' +
         '<li><a href="https://github.com/deemru/chromium-gost/releases">Сhromium GOST</a></li>' +
-        '<li><a href="keys.pfx">Key containers</a></li>' +
+        '<li><a href="keys.zip">Key containers</a></li>' +
         '</ol>')
 }
 
@@ -134,9 +134,9 @@ function loadAccounts() {
     certs.Count.then(count =>
     [...Array(count)].reduce((promise, _, i) =>
         promise.then(collector =>
-        certs.Item(i).then(cert =>
-        cert.HasPrivateKey().then(
-            has => !has ? collector :
+        certs.Item(i + 1).then(cert =>
+        cert.HasPrivateKey().then(has =>
+            !has ? collector :
                 cert.PublicKey().then(pubkey =>
                 pubkey.EncodedKey.then(encoded =>
                 encoded.Value().then(b64 =>
@@ -145,43 +145,46 @@ function loadAccounts() {
                     collector['0x' + skid] = cert
                     return collector
                 }))))))
-            , error => {
-                console.log('Certificate', i, 'of', count, 'error:', error.message)
-                return collector
-            })
-        ), Promise.resolve({}) // collect certificates into empty Object
+        , error => {
+            console.log('Certificate', i, 'of', count, 'error:', error.message)
+            return collector
+        })), Promise.resolve({}) // collect certificates into empty Object
     )))).then(certificates => {
         store.Close()
         window.accounts = []
         window.certificates = []
         window.selected = 0
-        let index = 0
+        let certcount = 0
         Object.keys(certificates).reduce((p, account) =>
             p.then(_ => accountEnabled(account)).then(enabled => {
+                console.log(account, (enabled ? '' : 'not ') + 'enabled')
                 if (enabled) {
                     window.accounts.push(account)
                     window.certificates.push(certificates[account])
                     $('#accounts').append(
-                        '<div>' +
-                        '<input name="accounts" type="radio" value="' + index + '"' +
-                        (index === window.selected ? ' checked ' : '') + '/>' +
-                        '<span>' + index + ':</span>' +
+                        '<div class="radio">' +
+                        '<input name="accounts" type="radio" value="' + certcount + '"' +
+                        (certcount === window.selected ? ' checked ' : '') + '/>' +
+                        '<span>' + certcount + ':</span>' +
                         '</div>' +
                         '<pre class="addr">' + account + '</pre><br>'
                     )
-                    index++
+                    certcount++
                 }}), Promise.resolve()
         ).then(_ => {
-            $('input[name=accounts]').change((event) => {
-                window.selected = parseInt(event.target.value)
+            if (certcount === 0)
+                return help()
+            let selectAccount = (number) => {
+                window.selected = number
                 window.account = window.accounts[window.selected]
                 window.certificate = window.certificates[window.selected]
                 window.signer = window.web3.getUncheckedSigner(window.account)
-            })
-            $('#accounts span').click((event) => {
-                $(event.target.previousSibling).click()
-            })
-            $('#accounts span:first-child').click()
+            }
+            selectAccount(0)
+            $('input[name=accounts]').change((event) =>
+                selectAccount(parseInt(event.target.value)))
+            $('#accounts span').click((event) =>
+                $(event.target.previousSibling).click())
             $('#accounts').css('display', 'block')
             colorize($('#accounts pre'))
         })

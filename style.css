@@ -53,17 +53,21 @@ form label {
   font-size: 14px;
 }
 
-#accounts div,
+#accounts div.radio,
 #accounts pre {
   display: inline-block;
   margin: 0 0 0 1em;
+}
+
+#tools #node input[type=text] {
+  width: 27em;
 }
 
 #tools input[type=text] {
   color: black;
   font-family: monospace;
   font-size: 14px;
-  width: 26em;
+  width: 25em;
   height: 1.6em;
   margin: .3em;
 }
